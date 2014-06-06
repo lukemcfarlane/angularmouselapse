@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="angularMouseLapse">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>My AngularJS App</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"></link>
+        <link rel="icon" href="favicon.ico" type="image/x-icon"></link>
+        <link rel="stylesheet" href="app/css/bootstrap.min.css"></link>
+        <script src="app/lib/angular.min.js"></script>
+        <script src="app/lib/angular-ui-bootstrap.js"></script>
+        <script src="app/lib/jquery-2.0.3.min.js"></script>
+        <script src="app/lib/underscore-min.js"></script> 
+        <script src="app/lib/moment.min.js"></script>
+        <script src="app/application.js"></script>
+        <script src="app/services/myService.js"></script>
+        <script src="app/controllers/mainCtrl.js"></script>
+        <script src="app/directives/myDirective.js"></script>
+    </head>
+    <body ng-controller="mainCtrl">
+        <div class="container">
+            <div class="page-header text-center">
+              <h1>Angular Mouse Lapse</h1>
+            </div>
+            <div class="text-center">
+                <mouse-lapse images="images"></mouse-lapse>
+            </div>
+        </div>
+    </body>
+</html>
