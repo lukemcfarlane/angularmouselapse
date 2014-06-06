@@ -1,8 +1,8 @@
 /**
  * This is the main controller for the app, used in index.html.
  *
- * @author  AUTHOR
- * @date    DATE
+ * @author  https://github.com/lukemcfarlane
+ * @date    June 2014
  */
 app.controller('mainCtrl', function($scope) {
 	$scope.images = [

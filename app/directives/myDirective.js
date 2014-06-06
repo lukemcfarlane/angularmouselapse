@@ -1,7 +1,11 @@
 /**
+ * Usage:
  *
- * @author  AUTHOR
- * @date    DATE
+ *  <!-- Note: imageArr should be an array of image src urls -->
+ *  <mouse-lapse images="imageArr"></mouse-lapse>
+ *
+ * @author  https://github.com/lukemcfarlane
+ * @date    June 2014
  */
 app.directive('mouseLapse', function() {
 	var makeActive = function(index, arr) {
