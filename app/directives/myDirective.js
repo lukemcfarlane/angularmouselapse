@@ -8,12 +8,94 @@
  * @date    June 2014
  */
 app.directive('mouseLapse', function() {
-	var makeActive = function(index, arr) {
-		for (var i = 0; i < arr.length; i++) {
-			arr[i].active = false;
-		}
-		arr[index].active = true;
+	var DataTypeEnum = {
+		OBJ: 0,
+		URL: 1,
+		EMPTY: 3
 	};
+
+	var makeActive = function(index, arr) {
+		if (arr.length > 0) {
+			for (var i = 0; i < arr.length; i++) {
+				arr[i].active = false;
+			}
+			arr[index].active = true;
+		}
+	};
+
+	var getDataType = function(dataArr) {
+		var dataType;
+		if (!isArray(dataArr)) {
+			throw Error('Value for \'images\' mouse-lapse attribute must be an array');
+		} else if (dataArr.length === 0) {
+			dataType = DataTypeEnum.EMPTY;
+		} else {
+			var firstItem = dataArr[0];
+			if (typeof firstItem === 'string') {
+				dataType = DataTypeEnum.URL;
+			} else if (typeof firstItem === 'object') {
+				validateDataObj(firstItem);
+				dataType = DataTypeEnum.OBJ;
+			} else {
+				var typeName = typeof firstItem;
+				throw Error('Array of type \'' + typeName + '\' not supported for mouse-lapse attribute \'images\'');
+			}
+		}
+		return dataType;
+	};
+
+	var validateDataObj = function(dataObj) {
+		var isValid = true;
+		if (!hasProperty(dataObj, 'url')) {
+			throw Error('mouse-lapse data object must have property: \'url\'');
+		}
+		return isValid;
+	};
+
+	var isArray = function(obj) {
+		return toString.call(obj) === '[object Array]';
+	};
+
+	var hasProperty = function(obj, key) {
+		return obj != null && hasOwnProperty.call(obj, key);
+	};
+
+	var getDataFromUrlArr = function(imgUrlArr) {
+		var imgDataArr = [];
+		for (var i = 0; i < imgUrlArr.length; i++) {
+			imgDataArr.push({
+				index: i,
+				url: imgUrlArr[i],
+				active: false
+			});
+		}
+		return imgDataArr;
+	};
+
+	var getDataFromObjArr = function(imgObjArr) {
+		var imgDataArr = [];
+		for (var i = 0; i < imgObjArr.length; i++) {
+			var obj = imgObjArr[i];
+			obj.index = i;
+			obj.active = false;
+			imgDataArr.push(obj);
+		}
+		return imgDataArr;
+	};
+
+	var getImgDataArr = function(images) {
+		var imgDataArr;
+		var dataType = getDataType(images);
+		if (dataType === DataTypeEnum.URL) {
+			imgDataArr = getDataFromUrlArr(images);
+		} else if (dataType === DataTypeEnum.OBJ) {
+			imgDataArr = getDataFromObjArr(images);
+		} else if (dataType === DataTypeEnum.EMPTY) {
+			imgDataArr = [];
+		}
+		return imgDataArr;
+	};
+
 	return {
 		restrict: 'E',
 		replace: true,
@@ -21,14 +103,7 @@ app.directive('mouseLapse', function() {
 			images: '='
 		},
 		controller: function($scope, $element, $window) {
-			$scope.imageDataArr = [];
-			for (var i = 0; i < $scope.images.length; i++) {
-				$scope.imageDataArr.push({
-					index: i,
-					url: $scope.images[i],
-					active: false
-				});
-			}
+			$scope.imageDataArr = getImgDataArr($scope.images);
 
 			makeActive(0, $scope.imageDataArr);
 
