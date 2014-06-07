@@ -1,8 +1,10 @@
 /**
  * Usage:
  *
- *  <!-- Note: imageArr should be an array of image src urls -->
+ *  <!-- Note: imageArr should be either an array of image src urls, or     -->
+ *  <!-- data objects e.g. { url: 'images/myImg1.jpg, label: 'My Image 1' } -->
  *  <mouse-lapse images="imageArr"></mouse-lapse>
+ *
  *
  * @author  https://github.com/lukemcfarlane
  * @date    June 2014
