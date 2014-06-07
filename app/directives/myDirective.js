@@ -120,8 +120,9 @@ app.directive('mouseLapse', function() {
 			});
 		},
 		template: '<div class="ml-container" >' +
-			'<div class="ml-image-container">' +
-			'<img ng-repeat="img in imageDataArr" ng-src="{{ img.url }}" ng-show="img.active"></img>' +
+			'<div ng-repeat="img in imageDataArr" ng-show="img.active" class="ml-image-container">' +
+			'<h4 ng-if="img.label">{{ img.label }}</h4>' +
+			'<img ng-src="{{ img.url }}"></img>' +
 			'</div>' +
 			'</div>'
 	};
