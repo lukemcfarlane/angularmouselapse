@@ -105,18 +105,21 @@ app.directive('mouseLapse', function() {
 			images: '='
 		},
 		controller: function($scope, $element, $window) {
-			$scope.imageDataArr = getImgDataArr($scope.images);
-
-			makeActive(0, $scope.imageDataArr);
-
+			var numCols = 0;
 			var windowWidth = $window.innerWidth;
-			var numCols = $scope.imageDataArr.length;
+			$scope.$watch('images', function(newVal, oldVal) {
+				$scope.imageDataArr = getImgDataArr(newVal);
+				numCols = $scope.imageDataArr.length;
+				makeActive(0, $scope.imageDataArr);
+			});
 
 			$element.on('mousemove', function($e) {
-				var mouseX = $e.clientX;
-				var col = Math.floor((mouseX / windowWidth) * numCols);
-				makeActive(col, $scope.imageDataArr);
-				$scope.$apply();
+				if (typeof $scope.imageDataArr !== 'undefined') {
+					var mouseX = $e.clientX;
+					var col = Math.floor((mouseX / windowWidth) * numCols);
+					makeActive(col, $scope.imageDataArr);
+					$scope.$apply();
+				}
 			});
 		},
 		template: '<div class="ml-container" >' +
