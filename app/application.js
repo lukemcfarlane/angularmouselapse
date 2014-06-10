@@ -1,1 +1,1 @@
-var app = angular.module('angularMouseLapse', []);
+var app = angular.module('angularMouseLapse', ['mouselapse']);
